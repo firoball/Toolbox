@@ -1,0 +1,40 @@
+Log of A7 Engine 7.82.3 run at Sat Jun 19 02:04:21 2010
+Firo on Windows NT/2000/XP version 5.1 Build 2600
+Options xml_sample.c -diag -tm -debug
+App: d:\acknex7\SED.exe in E:\projects\Acknex\toolbox\samples\
+
+MM mixer opened
+DSOUND device opened
+DI interface opened
+Start Window opened
+(c) Conitec / oP group Germany / www.3dgamestudio.com
+A7 Engine - Pro Edition V7.82.3 - Jan  7 2010
+Development version
+Registered to: Robert Jäger
+
+Mouse found
+SB Live!-Wavegerät opened
+NVIDIA GeForce 7900 GT pure T&L device 1ff9 detected
+D3D device NVIDIA GeForce 7900 GT 1ff9 selected.
+ackwii.dll opened
+t7.dll opened
+Compiling XML_SAMPLE.C - [Esc] to abort................. 0.493 sec
+Running XML_SAMPLE.C.
+2 objects
+Main started at 2.586 in debug mode
+def_startup started
+D3D_Init Window: 800x600 -> Window: 1x800x600x32
+Video memory found: 488 MB
+Main loop at 36.047...
+Server started at 36.047
+Client started at 36.047.
+1st frame with 488 MB at 36.048
+Normal exit at 37.466
+Close level,DLL,objects
+Free input,funcs,panels,defs,syns,views,strings,vars..ok
+Free sounds,bmaps,fonts,hash,defs1,script..ok
+Close dx,multimedia,D3D,engine,physics,nexus..ok
+A7 Engine - Pro Edition V7.82.3 - Jan  7 2010
+(c) Conitec / oP group Germany / www.3dgamestudio.com
+Registered to: Robert Jäger
+Close window at 37.509
