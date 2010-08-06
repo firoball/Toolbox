@@ -1,7 +1,7 @@
 /*
  *******************************************************************************
- * list.c
- * Creation date: 07.03.2007
+ * animate.c
+ * Creation date: 05.08.2010
  * Author:        Firoball
  *
  *******************************************************************************
@@ -12,11 +12,11 @@
  *******************************************************************************
  * Description
  *
- * Script for list management
+ * Script for entity animations
  *
  * Comments
  * 
- * for short descriptions see comments in list.h
+ * for short descriptions see comments in animate.h
  *
  *******************************************************************************
  */
@@ -26,111 +26,272 @@
 
 #include <acknex.h>
 
-//#include "list.h"
-
 
 /* ----- GLOBALS ----- */
+
+
+ANIM_CYCLE* psCycle;
 
 
 /* ----- EXTERNAL FUNCTIONS ----- */
 
 
-void LIST_append(LIST* psHost, void* psNewItem)
+ANIM* ANIM_create(ENTITY* entTarget)
 {
-	/* array limit reached - extend it */
-	if ( ((psHost->iCount) + 1) == (LIST_ARRAY_STEPS * (psHost->iRange)) )
+	return ANIM_create(entTarget, (var)10, (var)20);
+}
+
+
+ANIM* ANIM_create(ENTITY* entTarget, var vNumCycles)
+{
+	return ANIM_create(entTarget, vNumCycles, (var)20);
+}
+
+
+ANIM* ANIM_create(ENTITY* entTarget, var vNumCycles, var vBlendSpeed)
+{
+	var i;
+	ANIM* psAnim;
+
+	psAnim           = (ANIM*)malloc(sizeof(ANIM));
+	psAnim->psCycles = NULL;
+#ifdef blafusel
+	psAnim->psCycles = (ANIM_CYCLE*)malloc(sizeof(ANIM_CYCLE) * vNumCycles);
+	/* initialize animation cycles */
+	for (i = 0; i < vNumCycles; i++)
 	{
-		LIST__extend(psHost);	
+		psCycle = &(psAnim->psCycles)[i];
+		psCycle->strName = NULL;
+		psCycle->vSpeed  = 1;
+		psCycle->vOption = 0;
+	}
+#endif	
+	/* initialize animation */
+	psAnim->entTarget      = entTarget;
+	psAnim->vBlendTimer    = 0;
+	psAnim->vAnimTimer     = 0;
+	psAnim->vLastAnimTimer = 0;
+	psAnim->vLastMode      = 0;
+	psAnim->vOldMode       = 0;
+	psAnim->vNumCycles     = vNumCycles;
+	psAnim->vBlendSpeed    = vBlendSpeed;	
+	psAnim->vCycleType     = ANIM_CYCLE_UNDEFINED;
+	return psAnim;	
+}
+
+
+void ANIM_remove(ANIM* psAnim)
+{
+	/* internal animation cycles found - remove them first */
+	if (psAnim->vCycleType == ANIM_CYCLE_INTERNAL)
+	{
+		ANIM_CYCLE__remove(psAnim->psCycles);
+	}
+	/* remove the animation */
+	free(psAnim);
+}
+
+
+void ANIM_addCycle(ANIM* psAnim, var vModeID, STRING* strName, var vSpeed, var vOption)
+{
+	if (psAnim->vCycleType == ANIM_CYCLE_UNDEFINED)
+	{
+		psAnim->psCycles = ANIM_CYCLE__create(psAnim->vNumCycles);
+		psAnim->vCycleType = ANIM_CYCLE_INTERNAL;
+	}
+	
+	if ((vModeID < psAnim->vNumCycles) && (psAnim->vCycleType == ANIM_CYCLE_INTERNAL))
+	{
+		psCycle = &(psAnim->psCycles)[vModeID];
+		psCycle->strName = str_create(strName);
+		psCycle->vSpeed = vSpeed;
+		psCycle->vOption = vOption & (ANM_SKIP | ANM_CYCLE | ANM_ADD);	
 	}
 
-	/* add new item to list */
-	(psHost->ppList)[psHost->iCount] = psNewItem;
-	psHost->iCount ++;
-}
-
-void* LIST_getItem(LIST* psHost, int iIndex)
-{
-	/* return NULL for invalid indices */
-	if ((iIndex >= psHost->iCount) || (iIndex < 0))
-		return (NULL);
+	#ifdef SYSMSG_ACTIVE
 	else
-		return ((psHost->ppList)[iIndex]); 
+	{
+		SYSMSG_print(SYSMSG_SHOW_ERROR, "ANIM_addCycle: Mode ID exceeds maximum animation cycles or external cycles were found");		
+	}
+	#endif
+	
 }
 
-int LIST_items(LIST* psHost)
+
+void ANIM_addExtCycles(ANIM* psAnim, CYCLES* psCycles)
 {
-	return (psHost->iCount);
+	if ((psAnim->psCycles == NULL) && (psAnim->vCycleType == ANIM_CYCLE_UNDEFINED))
+	{
+		psAnim->psCycles = psCycles->psCycles;
+		psAnim->vNumCycles = psCycles->vNumCycles;
+		psAnim->vCycleType = ANIM_CYCLE_EXTERNAL;
+	}
+	
+	#ifdef SYSMSG_ACTIVE
+	else
+	{
+		SYSMSG_print(SYSMSG_SHOW_ERROR, "ANIM_addCycle: Cannot add external animation cycle. Already existing cycles were found.");		
+	}
+	#endif
 }
 
-LIST* LIST_create()
+
+void ANIM_play(ANIM* psAnim, var vMode)
 {
-	LIST* psTmpList;
-	psTmpList = (LIST*)malloc(sizeof(LIST));
-	LIST__init(psTmpList);
-	return (psTmpList);
+	ANIM_play(psAnim, vMode, 0);
 }
 
-void LIST_remove(LIST* psHost)
+
+void ANIM_play(ANIM* psAnim, var vMode, var vSpeed)
 {
-	free(psHost);
-	psHost = NULL;	
+	/* CAUTION: for speed reasons NO range check on vMode is performed!! */
+	
+	psCycle = &(psAnim->psCycles)[vMode];
+
+	/* mode has changed during blending phase? */
+	if (psAnim->vLastMode != vMode)
+	{
+		psAnim->vOldMode = psAnim->vLastMode;
+		psAnim->vLastMode = vMode;
+		psAnim->vBlendTimer = 100;
+		/* get last frame percentage */
+		psAnim->vLastAnimTimer = psAnim->vAnimTimer;
+		/* reset animation timer when mode change occurs */
+		psAnim->vAnimTimer = 0;
+	}
+	else
+	{
+		psAnim->vAnimTimer += (time_step * psCycle->vSpeed) + vSpeed;
+		/* check whether animation is terminated or looping */
+		if ((psCycle->vOption & ANM_CYCLE) != 0)
+		{
+			/* loop animation */
+			psAnim->vAnimTimer %= 100;
+		}
+		else
+		{
+			/* limit animation to 100% */
+			psAnim->vAnimTimer = minv(psAnim->vAnimTimer, 100);
+		}
+	}
+
+	/* play animation */
+	ent_animate(psAnim->entTarget, psCycle->strName, psAnim->vAnimTimer, psCycle->vOption);	
+		
+	/* now perform blending */
+	/* blending phase finished or mode change during blending phase? */
+	if (psAnim->vBlendTimer != 0)
+	{
+
+		/* decrement blend percentage and blend old animation */
+		psAnim->vBlendTimer = maxv(0, psAnim->vBlendTimer - (time_step * psAnim->vBlendSpeed));
+		psCycle = &(psAnim->psCycles)[psAnim->vOldMode];
+		ent_blendframe (psAnim->entTarget, psAnim->entTarget, psCycle->strName, psAnim->vLastAnimTimer, psAnim->vBlendTimer);
+		if (psAnim->vBlendTimer == 0)
+		{
+			/* blending finished */
+			psAnim->vOldMode = vMode;
+		}
+	}
+	else
+	{
+		/* get last frame percentage */
+		psAnim->vLastAnimTimer = psAnim->vAnimTimer;
+	}
 }
 
-void LIST_removeAll(LIST* psHost)
-{
-	int i;
 
-	/* cycle through pointer list */
-	for(i = 0; i < LIST_items(psHost); i++)
-		free(LIST_getItem(psHost, i));
-	free(psHost);
-	psHost = NULL;	
+var ANIM_getAnimPercent(ANIM* psAnim)
+{
+	return (psAnim->vAnimTimer);
 }
 
-void LIST_removeItem(LIST* psHost, int iIndex)
+
+var ANIM_getAnimMode(ANIM* psAnim)
 {
-	/* ignore invalid indices */
-	if ((iIndex < psHost->iCount) && (iIndex >= 0))
-		(psHost->ppList)[iIndex] = NULL;
+	return (psAnim->vLastMode);
+}
+
+
+CYCLES* CYCLES_create(var vNumCycles)
+{
+	CYCLES* psCycles;
+	
+	psCycles = (CYCLES*)malloc(sizeof(CYCLES));
+	psCycles->psCycles = ANIM_CYCLE__create(vNumCycles);
+	psCycles->vNumCycles = vNumCycles;
+	
+	return psCycles;	
+}
+
+void CYCLES_remove(CYCLES* psCycles)
+{
+	ANIM_CYCLE__remove(psCycles->psCycles);
+	free(psCycles);	
+}
+
+void CYCLES_addCycle(CYCLES* psCycles, var vModeID, STRING* strName, var vSpeed, var vOption)
+{
+	var vNumCycles;
+	
+	if (vModeID < psCycles->vNumCycles)
+	{
+		psCycle = &(psCycles->psCycles)[vModeID];
+		psCycle->strName = str_create(strName);
+		psCycle->vSpeed  = vSpeed;
+		psCycle->vOption = vOption & (ANM_SKIP | ANM_CYCLE | ANM_ADD);	
+	}
+
+	#ifdef SYSMSG_ACTIVE
+	else
+	{
+		SYSMSG_print(SYSMSG_SHOW_ERROR, "CYCLES_addCycle: Mode ID exceeds maximum animation cycles");		
+	}
+	#endif
+	
 }
 
 
 /* ----- INTERNAL FUNCTIONS ----- */
 
 
-void LIST__init(LIST *psHost)
+ANIM_CYCLE* ANIM_CYCLE__create(var vNumCycles)
 {
-	int i;
-	psHost->iCount = 0;
-	psHost->iRange = 1;	
-	psHost->ppList = (void**)malloc(sizeof(void*) * (psHost->iRange) * LIST_ARRAY_STEPS);
-
-	for (i = 0; i < LIST_ARRAY_STEPS * (psHost->iRange); i++)
-		(psHost->ppList)[i] = NULL; 
-}
-
-
-void LIST__extend(LIST* psHost)
-{
-	int i;
-	void** ppNewItemList;
+	ANIM_CYCLE* psCycles;
+	var i;
 	
-	#ifdef SYSMSG_ACTIVE
-	SYSMSG_print(SYSMSG_SHOW_DEBUG, "LIST__extend: List extended");
-	#endif
-	
-	/* increase range for list pointer array */
-	psHost->iRange++;
-	/* allocate new pointer list */
-	ppNewItemList = (void**)malloc(sizeof(void*) * (psHost->iRange) * LIST_ARRAY_STEPS);
-	/* copy old pointer list */
-	for (i = 0; i < psHost->iCount; i++)
+	psCycles = (ANIM_CYCLE*)malloc(sizeof(ANIM_CYCLE) * vNumCycles);
+
+	/* initialize animation cycles */
+	for (i = 0; i < vNumCycles; i++)
 	{
-		ppNewItemList[i] = (psHost->ppList)[i];
+		psCycles[i].strName = NULL;
+		psCycles[i].vSpeed  = 1;
+		psCycles[i].vOption = 0;
 	}
-	/* remove old pointer list */
-	free(psHost->ppList);
-	/* point to new list */
-	psHost->ppList = ppNewItemList;
+
+	return psCycles;	
 }
+
+
+void ANIM_CYCLE__remove(ANIM_CYCLE* psCycle)
+{
+	var i;
+	var vNumCycles;
+	
+	vNumCycles = sizeof(psCycle) / sizeof(ANIM_CYCLE);	
+
+	/* first remove all strings */
+	for (i = 0; i < vNumCycles; i++)
+	{
+		if (psCycle[i].strName != NULL)
+		{
+			ptr_remove(psCycle[i].strName);
+		}
+	}
+	/* remove the anim cycles */
+	free(psCycle);
+}
+
+
 
