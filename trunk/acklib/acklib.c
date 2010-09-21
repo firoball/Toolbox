@@ -1,3 +1,32 @@
+/*
+ *******************************************************************************
+ * acklib.c
+ * Creation date: 21.06.2009
+ * Author:        Firoball
+ *
+ *******************************************************************************
+ * $Date$
+ * $Revision$
+ * $Author$
+ *
+ *******************************************************************************
+ * Description
+ *
+ * Script for Library functions
+ *
+ * Comments
+ * 
+ * for short descriptions see comments in acklib.h
+ *
+ *******************************************************************************
+ */
+
+/* ----- INCLUDES ----- */
+
+
+/* ----- GLOBALS ----- */
+
+
 /* general purpose temp variables */
 VECTOR vecTemp;
 ANGLE  angTemp;
@@ -7,6 +36,10 @@ int    iTemp;
 char   cTemp;
 float  fTemp;
 long   lTemp;
+
+
+/* ----- EXTERNAL FUNCTIONS ----- */
+
 
 void vec_ang(ANGLE* pang)
 {

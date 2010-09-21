@@ -51,13 +51,13 @@
  */
 typedef struct
 {
-	STRING* strName;	/*!< Internal identifier of animation sequence */
-	var vSpeed;			/*!< Playback speed of animation */
-	var vOption;		/*!< ent_animate mode: ANM_SKIP, ANM_CYCLE, ANM_ADD */
+	STRING* strName;  /*!< Internal identifier of animation sequence */
+	var vSpeed;       /*!< Playback speed of animation */
+	var vOption;      /*!< ent_animate mode: ANM_SKIP, ANM_CYCLE, ANM_ADD */
 }ANIM_CYCLE;
 
 /*! Definition of an animation. 
- *  It is used for playback of different animation cacles of an entity.
+ *  It is used for playback of different animation cycles of an entity.
  *  This module automatically performs blending between different frames.
  *  By defining multiple aniamtion cycles it is possible to adjust
  *  playback speed separately for each animation sequence.
@@ -65,16 +65,16 @@ typedef struct
  */
 typedef struct
 {
-	ENTITY* entTarget;	/*!< Pointer to affected entity */
+	ENTITY* entTarget;   /*!< Pointer to affected entity */
 	ANIM_CYCLE* psCycles;/*!< List of animation cycles */
-	var vBlendTimer;		/*!< blending state of last animation cycle 0-100% */
-	var vAnimTimer;		/*!< state of current animation cycle 0-100% */
-	var vLastAnimTimer;	/*!< state of last animation cycle 0-100% */
-	var vLastMode;			/*!< last value of animation mode (used for detection of mode change) */
-	var vOldMode;			/*!< old animation mode (used for blending) */
-	var vNumCycles;		/*!< number of animation cycles */
-	var vBlendSpeed;		/*!< factor for adjusting blending speed in ticks */
-	var vCycleType;		/*!< type of animation cycle (ANIM_CYCLE_xxx) */
+	var vBlendTimer;     /*!< blending state of last animation cycle 0-100% */
+	var vAnimTimer;      /*!< state of current animation cycle 0-100% */
+	var vLastAnimTimer;  /*!< state of last animation cycle 0-100% */
+	var vLastMode;       /*!< last value of animation mode (used for detection of mode change) */
+	var vOldMode;        /*!< old animation mode (used for blending) */
+	var vNumCycles;      /*!< number of animation cycles */
+	var vBlendSpeed;     /*!< factor for adjusting blending speed in ticks */
+	var vCycleType;      /*!< type of animation cycle (ANIM_CYCLE_xxx) */
 }ANIM;
 
 /*! Definition of a set of animation cycles. 
@@ -87,7 +87,7 @@ typedef struct
 typedef struct
 {
 	ANIM_CYCLE* psCycles;/*!< List of animation cycles */
-	var vNumCycles;		/*!< number of animation cycles */
+	var vNumCycles;      /*!< number of animation cycles */
 }CYCLES;
 
 /* ----- EXTERNAL FUNCTIONS ----- */

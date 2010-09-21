@@ -86,7 +86,7 @@ void CAMCTRL__follow_loop(CAMCTRL* psCamctrl)
 
 	/* move pentViewMover and attach camera view */	
 	c_move(psCamctrl->pentViewMover, nullvector, &vecTemp, 
-		IGNORE_ME | IGNORE_YOU | IGNORE_PASSABLE | IGNORE_MODELS | 
+		IGNORE_ME | IGNORE_YOU | IGNORE_PASSABLE | /*IGNORE_MODELS |*/
 		IGNORE_SPRITES | IGNORE_PUSH | IGNORE_CONTENT | USE_AABB | GLIDE);
 
 		

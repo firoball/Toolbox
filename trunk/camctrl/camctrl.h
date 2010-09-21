@@ -36,9 +36,20 @@
 
 /*! \name Configuration Data 
  *  The values of these parameters can be overwritten by defining them before including this file.
+ *  Depending on the used camera type, more configuration parameters are available.
+ *  See following references (check description of camera modes for more information)
+ *
+ *  - camctrl_1stperson.h
+ *  - camctrl_follow.h
+ *  - camctrl_chase.h
+ *  
+ *  \note
+ *  These files are automatically included when required. Never include them manually in any project.
+ *
+ * Additionally following generic configuration parameters are available independent from used camera type:
  * \{ */
 #ifndef CAMCTRL_DEFLAYER
-#define CAMCTRL_DEFLAYER     20  /*!< default layer of view if CAMERA is not used */
+#define CAMCTRL_DEFLAYER     20  /*!< default layer of view if default CAMERA view is not used */
 #endif
 
 #ifndef CAMCTRL_DEFDIST
@@ -52,13 +63,24 @@
 #ifndef CAMCTRL_DEFSMOOTHFAC
 #define CAMCTRL_DEFSMOOTHFAC 1.0 /*!< default smoothing factor for camera movement */
 #endif
+
 /* \} */
 
 
 /*! \name Constant Data 
  *  These constants are used as parameters for certain functions.
+ *  List of available camera modes. Each mode needs some settings to be
+ *  initialized before the corresponding camera mode can be set active.
+ *  
  * \{ */
-#define CAMCTRL_1STPERSON    0   /* 1st person perspective for given entity */
+#define CAMCTRL_1STPERSON    0   
+/*!< 1st person perspective for given entity 
+                                      Required initialization calls:
+                                      - CAMCTRL_setEntity()\n
+                                      
+                                      Optional initialization calls:
+                                      - CAMCTRL_setAngle()
+                                  */
 #define CAMCTRL_CHASE        1   
 /*!< follow entity with dist, auto adjust angle to entity angle.
                                       Required initialization calls:

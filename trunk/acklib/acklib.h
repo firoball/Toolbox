@@ -27,6 +27,22 @@
  *  Include for general purpose functions.
  */
 
+/*! \name General Purpose Variables 
+ *  These variables can be used temporaily in own scripts.
+ *  Their value remains valid until the next wait() instruction or the next
+ *  function call which could also use those temporary variables.
+ * \{ */
+#ifdef DOXYGEN //Lite-C does not support externs
+extern VECTOR vecTemp;	/*!< General purpose VECTOR */
+extern ANGLE  angTemp;	/*!< General purpose ANGLE */
+extern COLOR  colTemp;	/*!< General purpose COLOR */
+extern var    vTemp;	/*!< General purpose var */
+extern int    iTemp;	/*!< General purpose int */
+extern char   cTemp;	/*!< General purpose char */
+extern float  fTemp;	/*!< General purpose float */
+extern long   lTemp;	/*!< General purpose long */
+#endif
+/* \} */
 
 /* ----- DEFINITIONS ----- */
 

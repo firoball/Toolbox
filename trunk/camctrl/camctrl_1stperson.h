@@ -22,7 +22,10 @@
  */
 #ifndef CAMCTRL_1STPERSON_H
 #define CAMCTRL_1STPERSON_H
-/*! \file */
+/*! \file 
+ * \b Internal - include file for 1st person camera.
+ * Included by camctrl.h. Should not be included directly.
+ */
 
 /* ----- INCLUDES ----- */
 

@@ -22,7 +22,10 @@
  */
 #ifndef CAMCTRL_CHASE_H
 #define CAMCTRL_CHASE_H
-/*! \file */
+/*! \file 
+ * \b Internal - include file for chase camera.
+ * Included by camctrl.h. Should not be included directly.
+ */
 
 /* ----- INCLUDES ----- */
 

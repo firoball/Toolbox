@@ -30,7 +30,7 @@
 /* ----- GLOBALS ----- */
 
 
-ANIM_CYCLE* psCycle;
+ANIM_CYCLE* ANIM_psCycle;
 
 
 /* ----- EXTERNAL FUNCTIONS ----- */
@@ -60,10 +60,10 @@ ANIM* ANIM_create(ENTITY* entTarget, var vNumCycles, var vBlendSpeed)
 	/* initialize animation cycles */
 	for (i = 0; i < vNumCycles; i++)
 	{
-		psCycle = &(psAnim->psCycles)[i];
-		psCycle->strName = NULL;
-		psCycle->vSpeed  = 1;
-		psCycle->vOption = 0;
+		ANIM_psCycle = &(psAnim->psCycles)[i];
+		ANIM_psCycle->strName = NULL;
+		ANIM_psCycle->vSpeed  = 1;
+		ANIM_psCycle->vOption = 0;
 	}
 #endif	
 	/* initialize animation */
@@ -102,10 +102,10 @@ void ANIM_addCycle(ANIM* psAnim, var vModeID, STRING* strName, var vSpeed, var v
 	
 	if ((vModeID < psAnim->vNumCycles) && (psAnim->vCycleType == ANIM_CYCLE_INTERNAL))
 	{
-		psCycle = &(psAnim->psCycles)[vModeID];
-		psCycle->strName = str_create(strName);
-		psCycle->vSpeed = vSpeed;
-		psCycle->vOption = vOption & (ANM_SKIP | ANM_CYCLE | ANM_ADD);	
+		ANIM_psCycle = &(psAnim->psCycles)[vModeID];
+		ANIM_psCycle->strName = str_create(strName);
+		ANIM_psCycle->vSpeed = vSpeed;
+		ANIM_psCycle->vOption = vOption & (ANM_SKIP | ANM_CYCLE | ANM_ADD);	
 	}
 
 	#ifdef SYSMSG_ACTIVE
@@ -146,7 +146,7 @@ void ANIM_play(ANIM* psAnim, var vMode, var vSpeed)
 {
 	/* CAUTION: for speed reasons NO range check on vMode is performed!! */
 	
-	psCycle = &(psAnim->psCycles)[vMode];
+	ANIM_psCycle = &(psAnim->psCycles)[vMode];
 
 	/* mode has changed during blending phase? */
 	if (psAnim->vLastMode != vMode)
@@ -161,9 +161,9 @@ void ANIM_play(ANIM* psAnim, var vMode, var vSpeed)
 	}
 	else
 	{
-		psAnim->vAnimTimer += (time_step * psCycle->vSpeed) + vSpeed;
+		psAnim->vAnimTimer += (time_step * ANIM_psCycle->vSpeed) + vSpeed;
 		/* check whether animation is terminated or looping */
-		if ((psCycle->vOption & ANM_CYCLE) != 0)
+		if ((ANIM_psCycle->vOption & ANM_CYCLE) != 0)
 		{
 			/* loop animation */
 			psAnim->vAnimTimer %= 100;
@@ -176,7 +176,7 @@ void ANIM_play(ANIM* psAnim, var vMode, var vSpeed)
 	}
 
 	/* play animation */
-	ent_animate(psAnim->entTarget, psCycle->strName, psAnim->vAnimTimer, psCycle->vOption);	
+	ent_animate(psAnim->entTarget, ANIM_psCycle->strName, psAnim->vAnimTimer, ANIM_psCycle->vOption);	
 		
 	/* now perform blending */
 	/* blending phase finished or mode change during blending phase? */
@@ -185,8 +185,8 @@ void ANIM_play(ANIM* psAnim, var vMode, var vSpeed)
 
 		/* decrement blend percentage and blend old animation */
 		psAnim->vBlendTimer = maxv(0, psAnim->vBlendTimer - (time_step * psAnim->vBlendSpeed));
-		psCycle = &(psAnim->psCycles)[psAnim->vOldMode];
-		ent_blendframe (psAnim->entTarget, psAnim->entTarget, psCycle->strName, psAnim->vLastAnimTimer, psAnim->vBlendTimer);
+		ANIM_psCycle = &(psAnim->psCycles)[psAnim->vOldMode];
+		ent_blendframe (psAnim->entTarget, psAnim->entTarget, ANIM_psCycle->strName, psAnim->vLastAnimTimer, psAnim->vBlendTimer);
 		if (psAnim->vBlendTimer == 0)
 		{
 			/* blending finished */
@@ -236,10 +236,10 @@ void CYCLES_addCycle(CYCLES* psCycles, var vModeID, STRING* strName, var vSpeed,
 	
 	if (vModeID < psCycles->vNumCycles)
 	{
-		psCycle = &(psCycles->psCycles)[vModeID];
-		psCycle->strName = str_create(strName);
-		psCycle->vSpeed  = vSpeed;
-		psCycle->vOption = vOption & (ANM_SKIP | ANM_CYCLE | ANM_ADD);	
+		ANIM_psCycle = &(psCycles->psCycles)[vModeID];
+		ANIM_psCycle->strName = str_create(strName);
+		ANIM_psCycle->vSpeed  = vSpeed;
+		ANIM_psCycle->vOption = vOption & (ANM_SKIP | ANM_CYCLE | ANM_ADD);	
 	}
 
 	#ifdef SYSMSG_ACTIVE

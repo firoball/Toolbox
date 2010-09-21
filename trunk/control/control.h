@@ -23,7 +23,9 @@
 
 #ifndef CONTROL_H
 #define CONTROL_H
-/*! \file */
+/*! \file 
+ * Include file for configurable key control manager.
+ */
 
 /* ----- INCLUDES ----- */
 
@@ -115,6 +117,7 @@
 
 /*! Definition of a control unit. 
  *  Use the CONTROL_create function for creation of a unit.
+ *  The key control manager allows menu based setup of keys for certain player actions.
  *  Several control units can be defined for different players, but only one should be active at a time.
  */
 typedef struct
