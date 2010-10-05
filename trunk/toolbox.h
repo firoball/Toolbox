@@ -57,6 +57,9 @@
  *  - TOOLBOX_USE_ANIMATE\n
  *    animate.h:			Animation module\n
  *
+ *  - TOOLBOX_USE_ALL\n
+ *  Simply use all features available (may slow down compile process)
+ *
  *  It is also possible to include the header files of the toolbox modules directly.
  */
 
@@ -68,6 +71,19 @@
 
 /* ----- INCLUDES ----- */
 
+
+/* must be evaluated before any include */
+#ifdef TOOLBOX_USE_ALL
+#define TOOLBOX_USE_SYSMSG
+#define TOOLBOX_USE_ACKLIB
+#define TOOLBOX_USE_CAMCTRL
+#define TOOLBOX_USE_CONTROL
+#define TOOLBOX_USE_INVENTORY
+#define TOOLBOX_USE_LIST
+#define TOOLBOX_USE_STATE
+#define TOOLBOX_USE_XMLREADER
+#define TOOLBOX_USE_ANIMATE
+#endif
 
 /* must be first include as it is only included on user request */
 #ifdef TOOLBOX_USE_SYSMSG

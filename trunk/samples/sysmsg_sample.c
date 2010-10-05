@@ -1,7 +1,33 @@
+/*
+ *******************************************************************************
+ * sysmsg_sample.c
+ * Creation date: 05.10.2010
+ * Author:        Firoball
+ *
+ *******************************************************************************
+ * $Date$
+ * $Revision$
+ * $Author$
+ *
+ *******************************************************************************
+ * Description
+ *
+ * Sample script for SYSMSG module
+ *
+ * Comments
+ * 
+ * for short descriptions see comments in this file
+ *
+ *******************************************************************************
+ */
+
 #include <acknex.h>
 
+#define PRAGMA_POINTER
 #define PRAGMA_PATH ".."
-#include "sysmsg\sysmsg.h"
+
+#define TOOLBOX_USE_SYSMSG
+#include "toolbox.h"
 
 var sample_cnt = 0;
 

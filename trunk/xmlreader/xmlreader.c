@@ -34,7 +34,7 @@
 XMLFILE* XMLFILE_create(char* pcFile)
 {
 	XMLFILE* psHost;
-	psHost = (XMLFILE*)malloc(sizeof(XMLFILE));
+	psHost = (XMLFILE*)sys_malloc(sizeof(XMLFILE));
 	psHost->vFName = str_create(pcFile);
 	psHost->vFHndl = NULL;
 	psHost->psAnchor = NULL;
@@ -52,7 +52,7 @@ void XMLFILE_remove(XMLFILE* psHost)
 	{
 		XMLPAR_remove(psHost->psAnchor);	
 	}
-	free (psHost);
+	sys_free (psHost);
 }
 
 XMLPAR* XMLFILE_parse(XMLFILE* psHost)
@@ -81,7 +81,7 @@ XMLPAR* XMLFILE_parse(XMLFILE* psHost)
 XMLPAR* XMLPAR_create()
 {
 	XMLPAR* psHost;
-	psHost = (XMLPAR*)malloc(sizeof(XMLPAR));
+	psHost = (XMLPAR*)sys_malloc(sizeof(XMLPAR));
 	psHost->psTagList = NULL;
 	psHost->psAttribList = NULL;
 	psHost->strTag = NULL;
@@ -115,7 +115,7 @@ void XMLPAR_remove(XMLPAR* psHost)
 		LIST_remove(psHost->psAttribList);	
 	}
 
-	free(psHost);
+	sys_free(psHost);
 }
 
 void XMLPAR_getContent(XMLPAR* psHost, STRING* strTarget)
@@ -215,7 +215,7 @@ int XMLPAR_getAttributeElements(XMLPAR* psHost)
 XMLATTRIB* XMLATTRIB_create()
 {
 	XMLATTRIB* psHost;
-	psHost = (XMLATTRIB*)malloc(sizeof(XMLATTRIB));
+	psHost = (XMLATTRIB*)sys_malloc(sizeof(XMLATTRIB));
 	psHost->strTag = NULL;
 	psHost->strContent = NULL;
 	
@@ -227,7 +227,7 @@ void XMLATTRIB_remove(XMLATTRIB* psHost)
 	str_remove(psHost->strTag);
 	str_remove(psHost->strContent);
 
-	free(psHost);
+	sys_free(psHost);
 }
 
 XMLATTRIB* XMLATTRIB_getElementByAttribute(XMLPAR* psHost, STRING* strTag)

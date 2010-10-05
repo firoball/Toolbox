@@ -53,19 +53,9 @@ ANIM* ANIM_create(ENTITY* entTarget, var vNumCycles, var vBlendSpeed)
 	var i;
 	ANIM* psAnim;
 
-	psAnim           = (ANIM*)malloc(sizeof(ANIM));
+	psAnim           = (ANIM*)sys_malloc(sizeof(ANIM));
 	psAnim->psCycles = NULL;
-#ifdef blafusel
-	psAnim->psCycles = (ANIM_CYCLE*)malloc(sizeof(ANIM_CYCLE) * vNumCycles);
-	/* initialize animation cycles */
-	for (i = 0; i < vNumCycles; i++)
-	{
-		ANIM_psCycle = &(psAnim->psCycles)[i];
-		ANIM_psCycle->strName = NULL;
-		ANIM_psCycle->vSpeed  = 1;
-		ANIM_psCycle->vOption = 0;
-	}
-#endif	
+
 	/* initialize animation */
 	psAnim->entTarget      = entTarget;
 	psAnim->vBlendTimer    = 0;
@@ -88,7 +78,7 @@ void ANIM_remove(ANIM* psAnim)
 		ANIM_CYCLE__remove(psAnim->psCycles);
 	}
 	/* remove the animation */
-	free(psAnim);
+	sys_free(psAnim);
 }
 
 
@@ -217,7 +207,7 @@ CYCLES* CYCLES_create(var vNumCycles)
 {
 	CYCLES* psCycles;
 	
-	psCycles = (CYCLES*)malloc(sizeof(CYCLES));
+	psCycles = (CYCLES*)sys_malloc(sizeof(CYCLES));
 	psCycles->psCycles = ANIM_CYCLE__create(vNumCycles);
 	psCycles->vNumCycles = vNumCycles;
 	
@@ -227,7 +217,7 @@ CYCLES* CYCLES_create(var vNumCycles)
 void CYCLES_remove(CYCLES* psCycles)
 {
 	ANIM_CYCLE__remove(psCycles->psCycles);
-	free(psCycles);	
+	sys_free(psCycles);	
 }
 
 void CYCLES_addCycle(CYCLES* psCycles, var vModeID, STRING* strName, var vSpeed, var vOption)
@@ -260,7 +250,7 @@ ANIM_CYCLE* ANIM_CYCLE__create(var vNumCycles)
 	ANIM_CYCLE* psCycles;
 	var i;
 	
-	psCycles = (ANIM_CYCLE*)malloc(sizeof(ANIM_CYCLE) * vNumCycles);
+	psCycles = (ANIM_CYCLE*)sys_malloc(sizeof(ANIM_CYCLE) * vNumCycles);
 
 	/* initialize animation cycles */
 	for (i = 0; i < vNumCycles; i++)
@@ -290,7 +280,7 @@ void ANIM_CYCLE__remove(ANIM_CYCLE* psCycle)
 		}
 	}
 	/* remove the anim cycles */
-	free(psCycle);
+	sys_free(psCycle);
 }
 
 

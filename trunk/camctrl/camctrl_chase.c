@@ -73,7 +73,7 @@ void CAMCTRL__chase_loop(CAMCTRL* psCamctrl)
 	vec_rotate (&vecTemp, &angTemp);
 	vec_add (&vecTemp, &(psCamctrl->pentGenius->x));
 	vec_sub (&vecTemp, &(psCamctrl->pentViewMover->x));
-	vec_scale (&vecTemp, 0.3 * time_step);	/* smooth out camera movement */	
+	vec_scale (&vecTemp, CAMCTRL_CHASE_SMOOTHFAC * time_step);	/* smooth out camera movement */	
 
 	/* move pentViewMover and attach camera view */	
 	c_move(psCamctrl->pentViewMover, nullvector, &vecTemp, 

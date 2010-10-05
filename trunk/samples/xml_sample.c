@@ -1,3 +1,26 @@
+/*
+ *******************************************************************************
+ * xml_sample.c
+ * Creation date: 05.10.2010
+ * Author:        Firoball
+ *
+ *******************************************************************************
+ * $Date$
+ * $Revision$
+ * $Author$
+ *
+ *******************************************************************************
+ * Description
+ *
+ * Sample script for XML module
+ *
+ * Comments
+ * 
+ * for short descriptions see comments in this file
+ *
+ *******************************************************************************
+ */
+
 /* This short script shows usage of the XMLFILE object. */
 /* See xmlreader.h for a short description of all functions. */
 /* Don't modify XMLFILE parameters directly! use at own risk! */
@@ -7,8 +30,12 @@
 #include <acknex.h>
 #include <default.c>
 
+#define PRAGMA_POINTER
+#define PRAGMA_PATH ".."
 
-#include "..\xmlreader\xmlreader.h"
+#define TOOLBOX_USE_XMLREADER
+#include "toolbox.h"
+
 
 void main ()
 {

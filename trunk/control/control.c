@@ -54,11 +54,11 @@ CTRL* CTRL_create(var vNumKeys, STRING* strTitle, STRING* strFont, var vTextFlag
 	/* perform a first initialization of the keymap data */
 	CTRL__initialize();
 	
-	psCtrl = (CTRL*)malloc(sizeof(CTRL));
+	psCtrl = (CTRL*)sys_malloc(sizeof(CTRL));
 	psCtrl->vNumKeys  = vNumKeys;
-	psCtrl->vKeyCodes = (var*)malloc(sizeof(var) * vNumKeys);
-	psCtrl->vKeyLocks = (var*)malloc(sizeof(var) * vNumKeys);
-	psCtrl->pfFunc    = (void**)malloc(sizeof(void*) * vNumKeys);
+	psCtrl->vKeyCodes = (var*)sys_malloc(sizeof(var) * vNumKeys);
+	psCtrl->vKeyLocks = (var*)sys_malloc(sizeof(var) * vNumKeys);
+	psCtrl->pfFunc    = (void**)sys_malloc(sizeof(void*) * vNumKeys);
 	psCtrl->vSelected = 0;
 	psCtrl->vActive   = 1;
 	psCtrl->vVisible  = 0;
@@ -119,16 +119,16 @@ void CTRL_remove(CTRL* psCtrl)
 	
 	wait (1);
 	
-	free(psCtrl->vKeyCodes);
-	free(psCtrl->vKeyLocks);
-	free(psCtrl->pfFunc);
+	sys_free(psCtrl->vKeyCodes);
+	sys_free(psCtrl->vKeyLocks);
+	sys_free(psCtrl->pfFunc);
 	ptr_remove(psCtrl->fntText);
 	ptr_remove(psCtrl->txtDisplay);
 	ptr_remove(psCtrl->txtKey);
 	ptr_remove(psCtrl->txtDescription);
 	ptr_remove(psCtrl->txtSelection);
 	
-	free(psCtrl);
+	sys_free(psCtrl);
 }
 
 void CTRL_setDescription(CTRL* psCtrl, var vIndex, STRING* strDesc)

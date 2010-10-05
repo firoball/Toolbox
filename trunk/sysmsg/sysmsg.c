@@ -49,7 +49,7 @@ void SYSMSG_create(char* pcFont, var vBufferSize, var vLayer)
 		SYSMSG_remove();
 		
 	/* allocate memory */
-	sysmsg = (SYSMSG*)malloc(sizeof(SYSMSG));
+	sysmsg = (SYSMSG*)sys_malloc(sizeof(SYSMSG));
 
 	/* initialize properties */
 	sysmsg->fntSys = font_create(pcFont);
@@ -80,7 +80,7 @@ void SYSMSG_remove()
 		}
 		ptr_remove(sysmsg->txtSys);
 		ptr_remove(sysmsg->fntSys);
-		free (sysmsg);
+		sys_free (sysmsg);
 		sysmsg = NULL;
 	}
 }

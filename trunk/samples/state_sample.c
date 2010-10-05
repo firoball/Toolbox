@@ -1,10 +1,31 @@
-/* engine includes */
+/*
+ *******************************************************************************
+ * state_sample.c
+ * Creation date: 05.10.2010
+ * Author:        Firoball
+ *
+ *******************************************************************************
+ * $Date$
+ * $Revision$
+ * $Author$
+ *
+ *******************************************************************************
+ * Description
+ *
+ * Sample script for STATE module
+ *
+ * Comments
+ * 
+ * for short descriptions see comments in this file
+ *
+ *******************************************************************************
+ */
+
 #include <acknex.h>
 #include <default.c>
 
-
 #define PRAGMA_POINTER
-#define PRAGMA_PATH ".." //toolbox path
+#define PRAGMA_PATH ".." 
 
 #define TOOLBOX_USE_SYSMSG
 #define TOOLBOX_USE_STATE

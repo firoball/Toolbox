@@ -1,18 +1,18 @@
 /*
  *******************************************************************************
- * camctrl_chase.h
- * Creation date: 24.06.2009
+ * camctrl_lookat.h
+ * Creation date: 22.09.2010
  * Author:        Firoball
  *
  *******************************************************************************
- * $Date$
- * $Revision$
- * $Author$
+ * $Date: 2010-09-22 00:07:23 +0200 (Mi, 22 Sep 2010) $
+ * $Revision: 6 $
+ * $Author: Firo $
  *
  *******************************************************************************
  * Description
  *
- * Definition script for chase camera
+ * Definition script for lookat camera
  *
  * Comments
  * 
@@ -20,10 +20,10 @@
  *
  *******************************************************************************
  */
-#ifndef CAMCTRL_CHASE_H
-#define CAMCTRL_CHASE_H
+#ifndef CAMCTRL_LOOKAT_H
+#define CAMCTRL_LOOKAT_H
 /*! \file 
- * \b Internal - include file for chase camera.
+ * \b Internal - include file for lookat camera.
  * Included by camctrl.h. Should not be included directly.
  */
 
@@ -32,14 +32,15 @@
 
 /* ----- DEFINITIONS ----- */
 
-#define CAMCTRL_CHASE_ACTIVE	/*!< This define can be evaluated to check if this module is included and active */
+
+#define CAMCTRL_LOOKAT_ACTIVE	/*!< This define can be evaluated to check if this module is included and active */
 
 
 /*! \name Configuration Data 
  *  The values of these parameters can be overwritten by defining them before including this file.
  * \{ */
-#ifndef CAMCTRL_CHASE_SMOOTHFAC
-#define CAMCTRL_CHASE_SMOOTHFAC     0.3	/*!< Smooth factor for position adjustment (0.01 - 1.0) */
+#ifndef CAMCTRL_LOOKAT_SMOOTHFAC
+#define CAMCTRL_LOOKAT_SMOOTHFAC     0.3	/*!< Smooth factor for viewing angle adjustment (0.01 - 1.0) */
 #endif
 
 /* \} */
@@ -54,11 +55,8 @@
 /* ----- INTERNAL FUNCTIONS - DO NOT USE ----- */
 
 /*! \internal - Do not use! */
-void CAMCTRL__chase_loop(CAMCTRL* psCamctrl);
+void CAMCTRL__lookat_loop(CAMCTRL* psCamctrl);
 /*! \internal - Do not use! */
-void CAMCTRL__chase_init(CAMCTRL* psCamctrl);
+void CAMCTRL__lookat_init(CAMCTRL* psCamctrl);
 
-#include "camctrl_chase.c"
-
-
-#endif
+#include "camctrl_lookat.c"

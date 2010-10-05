@@ -1,8 +1,32 @@
+/*
+ *******************************************************************************
+ * control_sample.c
+ * Creation date: 05.10.2010
+ * Author:        Firoball
+ *
+ *******************************************************************************
+ * $Date$
+ * $Revision$
+ * $Author$
+ *
+ *******************************************************************************
+ * Description
+ *
+ * Sample script for CONTROL module
+ *
+ * Comments
+ * 
+ * for short descriptions see comments in this file
+ *
+ *******************************************************************************
+ */
+
 #include <acknex.h>
 #include <default.c>
-#define PRAGMA_POINTER
 
+#define PRAGMA_POINTER
 #define PRAGMA_PATH ".."
+
 #define TOOLBOX_USE_SYSMSG
 #define TOOLBOX_USE_CONTROL
 #include "toolbox.h"
@@ -32,15 +56,18 @@ void ctrl_hide()
 
 void ctrl_save()
 {
+	/* save control layout to disk */
 	CTRL_save(psCtrl, "control.txt");
 }
 
 
 void ctrl_load()
 {
+	/* load control layout from disk */
 	CTRL_load(psCtrl, "control.txt");
 }
 
+/* helper functions for display message */
 void func_up()
 {
 	str_cpy((txtDisplay->pstring)[0], "UP key pressed");
@@ -98,13 +125,17 @@ void main()
 	CTRL_setFunction(psCtrl, C_RIGHT, func_right);
 	CTRL_setFunction(psCtrl, C_FIRE, func_fire);
 
+	/* some special behaviour flags */
 	CTRL_setFlags(psCtrl, CTRL_ENABLE_FADE /*| CTRL_DENY_MOUSE*/);
+
+	/* load last layout from disk - if any */
 	CTRL_load(psCtrl, "default_control.txt");
 
 	on_space = ctrl_show;
 	on_s     = ctrl_save;
 	on_l     = ctrl_load;
 	
+	/* helper functionylity for display message */
 	while(key_esc != 1)
 	{
 		if (CTRL_isPressed(psCtrl, C_FIRE))
@@ -119,6 +150,8 @@ void main()
 		wait (1);
 	}
 	CTRL_hide(psCtrl);
+
+	/* now remove it from memory */
 	CTRL_remove(psCtrl);
 	SYSMSG_remove();
 	sys_exit(NULL);

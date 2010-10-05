@@ -30,6 +30,7 @@
 #include "camctrl_1stperson.h"
 #include "camctrl_chase.h"
 #include "camctrl_follow.h"
+#include "camctrl_lookat.h"
 
 
 /* ----- GLOBALS ----- */
@@ -55,7 +56,7 @@ CAMCTRL* CAMCTRL_create(VIEW* pviewCam)
 {
 	CAMCTRL* psCamctrl;
 	
-	psCamctrl = (CAMCTRL*)malloc(sizeof(CAMCTRL));
+	psCamctrl = (CAMCTRL*)sys_malloc(sizeof(CAMCTRL));
 	vec_set(&(pviewCam->x), nullvector);
 	pviewCam->flags &= ~SHOW;	/* make sure SHOW flag is NOT set */
 	psCamctrl->vViewCreated  = OFF;
@@ -87,7 +88,7 @@ void CAMCTRL_remove(CAMCTRL* psHandle)
 	if (psHandle->vViewCreated == ON)
 		ptr_remove(psHandle->pviewCam);
 	/* remove CAMCTRL object from memory */
-	free(psHandle);
+	sys_free(psHandle);
 }
 
 void CAMCTRL_show(CAMCTRL* psHandle)
@@ -207,6 +208,7 @@ void CAMCTRL__move_loop(CAMCTRL* psHandle)
 				break;
 				
 			case CAMCTRL_LOOKAT:
+				CAMCTRL__lookat_loop(psHandle);
 				break;
 				
 			case CAMCTRL_FOLLOW:
@@ -240,6 +242,7 @@ void CAMCTRL__mode_init(CAMCTRL* psHandle)
 			break;
 			
 		case CAMCTRL_LOOKAT:
+			CAMCTRL__lookat_init(psHandle);
 			break;
 			
 		case CAMCTRL_FOLLOW:
@@ -248,6 +251,7 @@ void CAMCTRL__mode_init(CAMCTRL* psHandle)
 			
 		default:
 			/* invalid mode selected */
+			psHandle->vCameraLocked = 1;
 			break;
 	}
 }

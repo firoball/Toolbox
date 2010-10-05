@@ -1,12 +1,38 @@
+/*
+ *******************************************************************************
+ * list_sample.c
+ * Creation date: 05.10.2010
+ * Author:        Firoball
+ *
+ *******************************************************************************
+ * $Date$
+ * $Revision$
+ * $Author$
+ *
+ *******************************************************************************
+ * Description
+ *
+ * Sample script for LIST module
+ *
+ * Comments
+ * 
+ * for short descriptions see comments in this file
+ *
+ *******************************************************************************
+ */
+
 /* This short script shows usage of the LIST object. */
 /* See list.h for a short description of all functions. */
 /* Don't modify LIST parmeters directly! use at own risk! */
 /* - Firoball */
 
+#define PRAGMA_POINTER
 #include <acknex.h>
 #include <default.c>
 
+#define PRAGMA_POINTER
 #define PRAGMA_PATH ".."
+
 #define TOOLBOX_USE_LIST
 #define TOOLBOX_USE_SYSMSG
 #include "toolbox.h"

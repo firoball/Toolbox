@@ -42,6 +42,7 @@
  *  - camctrl_1stperson.h
  *  - camctrl_follow.h
  *  - camctrl_chase.h
+ *  - camctrl_lookat.h
  *  
  *  \note
  *  These files are automatically included when required. Never include them manually in any project.
@@ -74,7 +75,7 @@
  *  
  * \{ */
 #define CAMCTRL_1STPERSON    0   
-/*!< 1st person perspective for given entity 
+/*!< 1st person perspective for given entity. 
                                       Required initialization calls:
                                       - CAMCTRL_setEntity()\n
                                       
@@ -91,7 +92,11 @@
                                       - CAMCTRL_setAngle()
                                   */
 #define CAMCTRL_FIXED        2   /* fixed view position, no automatic movement */
-#define CAMCTRL_LOOKAT       3   /* fixed view position, auto adjust view angle to given pos */
+#define CAMCTRL_LOOKAT       3   
+/*!< fixed view position, auto adjust view angle to follow given position. 
+                                      Required initialization calls:
+                                      - CAMCTRL_setEntity()\n
+*/
 #define CAMCTRL_FOLLOW       4   
 /*!< follow entity with dist, no auto adjust of view angle. 
                                       Required initialization calls:

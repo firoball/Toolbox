@@ -24,11 +24,6 @@
 /* ----- INCLUDES ----- */
 
 
-#include <acknex.h>
-
-//#include "list.h"
-
-
 /* ----- GLOBALS ----- */
 
 
@@ -65,14 +60,15 @@ int LIST_items(LIST* psHost)
 LIST* LIST_create()
 {
 	LIST* psTmpList;
-	psTmpList = (LIST*)malloc(sizeof(LIST));
+	psTmpList = (LIST*)sys_malloc(sizeof(LIST));
 	LIST__init(psTmpList);
 	return (psTmpList);
 }
 
 void LIST_remove(LIST* psHost)
 {
-	free(psHost);
+	sys_free(psHost->ppList);
+	sys_free(psHost);
 	psHost = NULL;	
 }
 
@@ -82,8 +78,9 @@ void LIST_removeAll(LIST* psHost)
 
 	/* cycle through pointer list */
 	for(i = 0; i < LIST_items(psHost); i++)
-		free(LIST_getItem(psHost, i));
-	free(psHost);
+		sys_free(LIST_getItem(psHost, i));
+	sys_free(psHost->ppList);
+	sys_free(psHost);
 	psHost = NULL;	
 }
 
@@ -103,7 +100,7 @@ void LIST__init(LIST *psHost)
 	int i;
 	psHost->iCount = 0;
 	psHost->iRange = 1;	
-	psHost->ppList = (void**)malloc(sizeof(void*) * (psHost->iRange) * LIST_ARRAY_STEPS);
+	psHost->ppList = (void**)sys_malloc(sizeof(void*) * (psHost->iRange) * LIST_ARRAY_STEPS);
 
 	for (i = 0; i < LIST_ARRAY_STEPS * (psHost->iRange); i++)
 		(psHost->ppList)[i] = NULL; 
@@ -122,14 +119,14 @@ void LIST__extend(LIST* psHost)
 	/* increase range for list pointer array */
 	psHost->iRange++;
 	/* allocate new pointer list */
-	ppNewItemList = (void**)malloc(sizeof(void*) * (psHost->iRange) * LIST_ARRAY_STEPS);
+	ppNewItemList = (void**)sys_malloc(sizeof(void*) * (psHost->iRange) * LIST_ARRAY_STEPS);
 	/* copy old pointer list */
 	for (i = 0; i < psHost->iCount; i++)
 	{
 		ppNewItemList[i] = (psHost->ppList)[i];
 	}
 	/* remove old pointer list */
-	free(psHost->ppList);
+	sys_free(psHost->ppList);
 	/* point to new list */
 	psHost->ppList = ppNewItemList;
 }

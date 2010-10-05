@@ -41,7 +41,7 @@ STATEMGR* STATEMGR_create(var vState)
 	STATEMGR* psState;
 	
 	/* allocate memory */
-	psState = (STATEMGR*)malloc(sizeof(STATEMGR));
+	psState = (STATEMGR*)sys_malloc(sizeof(STATEMGR));
 	
 	/* initialize data */
 	psState->vState        = vState;
@@ -57,10 +57,10 @@ STATEMGR* STATEMGR_create(var vState)
 
 void STATEMGR_remove(STATEMGR* psState)
 {
-	/* delete everything */
+	/* delete everything (done inside LIST object automatically) */
 	LIST_removeAll(psState->psTransitions);
 	LIST_removeAll(psState->psActions);
-	free(psState);
+	sys_free(psState);
 }
 
 
@@ -90,7 +90,7 @@ void STATEMGR_addTransition(STATEMGR* psState, var vCurState, var vNewState, voi
 	if (vTranExists != 1)
 	{
 		/* allocate memory */
-		psTran = (STATE_TRAN*)malloc(sizeof(STATE_TRAN));
+		psTran = (STATE_TRAN*)sys_malloc(sizeof(STATE_TRAN));
 		
 		psTran->vCurState = vCurState;
 		psTran->vNewState = vNewState;
@@ -129,7 +129,7 @@ void STATEMGR_addState(STATEMGR* psState, var vCurState, void* pfAction, void* p
 	if (vStateExists != 1)
 	{
 		/* allocate memory */
-		psAction = (STATE_ACTION*)malloc(sizeof(STATE_ACTION));
+		psAction = (STATE_ACTION*)sys_malloc(sizeof(STATE_ACTION));
 		
 		psAction->vState    = vCurState;
 		psAction->pfAction  = pfAction;

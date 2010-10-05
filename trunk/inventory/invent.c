@@ -54,7 +54,7 @@ INVENTORY* INVENTORY_create(STRING* strBmap, var vLayer)
 	var vHeight;
 	
 	/* allocate memory */
-	psInv = (INVENTORY*)malloc(sizeof(INVENTORY));
+	psInv = (INVENTORY*)sys_malloc(sizeof(INVENTORY));
 
 	#ifdef SYSMSG_ACTIVE
 	vInstInventory++;
@@ -153,7 +153,7 @@ void INVENTORY_remove(INVENTORY* psInv)
 	ptr_remove(psInv->ppanCur);
 	ptr_remove(psInv->ppanItem);
 
-	free(psInv);
+	sys_free(psInv);
 
 	#ifdef SYSMSG_ACTIVE
 	vInstInventory--;
@@ -456,7 +456,7 @@ INVITEM* INVITEM_create(STRING* strBmap, long lItemId, var vWeight, var vAmount)
 	INVITEM* psItem;
 	
 	/* allocate memory */
-	psItem = (INVENTORY*)malloc(sizeof(INVITEM));
+	psItem = (INVENTORY*)sys_malloc(sizeof(INVITEM));
 	
 	#ifdef SYSMSG_ACTIVE
 	vInstInvitem++;
@@ -659,7 +659,7 @@ void INVITEM__remove(INVITEM* psItem)
 	}
 	
 	/* free memory */
-	free(psItem);
+	sys_free(psItem);
 
 	#ifdef SYSMSG_ACTIVE
 	vInstInvitem--;
