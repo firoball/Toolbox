@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<firstTag>hallo</firstTag>
+<NoContent></NoContent>
+<!-- Comment -->
+<NextTag
+mainattrib="attrib1"   nextattrib = "attrib2" lastattrib  ="attrib3">
+	<Main>
+		<SubTag1>Main_1</SubTag1>
+		<SubTag2>
+			<SubSub subtag="nummer1"subtag2 = "action"   >Servus</SubSub>
+		</SubTag2>
+	</Main>
+	<FunTag>jubel</FunTag>
+</NextTag>
+<Emptytag/>
+<LastTag>Chefsache</LastTag>

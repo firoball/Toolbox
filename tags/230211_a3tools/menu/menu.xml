@@ -1,0 +1,20 @@
+<menu caption="Demospiel">
+	
+	<menuitem caption="Spiel Starten" id="1"/>
+
+	<menuitem caption="Schwierigkeitsgrad" id="2">
+		<option value="1">Einfach</option>
+		<option value="2">Normal</option>
+		<option value="3">Schwer</option>
+	</menuitem>
+
+	<menu caption="Beenden">
+
+		<menuitem caption="Wirklich beenden?" id="3">
+			<option value="1">Ja</option>
+			<option value="2">Nein</option>
+		</menuitem>		
+
+	</menu>
+
+</menu>
