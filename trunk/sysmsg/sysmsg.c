@@ -70,6 +70,9 @@ void SYSMSG_remove()
 {
 	int i;
 
+	/* if logging was active - stop it */
+	SYSMSG_logToFile(0);
+	
 	if (sysmsg != NULL)
 	{
 		for (i = 0; i < sysmsg->txtSys->strings; i++) 
@@ -146,7 +149,7 @@ void SYSMSG_setMode(int iMode)
 	sysmsg->iAllowedMode = iMode;
 }
 
-void SYSMSG_logToFile(int iEnable)
+void SYSMSG_logToFile(int iEnable, STRING* strFile)
 {
 	if (iEnable == 0)
 	{
@@ -164,7 +167,7 @@ void SYSMSG_logToFile(int iEnable)
 		/* only open new file, if handle is invalid */
 		if (sysmsg->vLogFileHndl == NULL)
 		{
-			sysmsg->vLogFileHndl = file_open_write ("sysmsg.log");
+			sysmsg->vLogFileHndl = file_open_write (strFile);
 			file_str_write(sysmsg->vLogFileHndl, "Log started: [");
 			file_var_write(sysmsg->vLogFileHndl, sys_day);
 			file_var_write(sysmsg->vLogFileHndl, sys_month);
@@ -178,6 +181,12 @@ void SYSMSG_logToFile(int iEnable)
 		}	
 	}
 }
+
+void SYSMSG_logToFile(int iEnable)
+{
+	SYSMSG_logToFile(iEnable, "sysmsg.log");
+}
+
 
 void SYSMSG_setPos(var vX, var vY)
 {

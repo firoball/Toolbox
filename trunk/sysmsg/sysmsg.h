@@ -172,6 +172,13 @@ void SYSMSG_setMode(int iMode);
  */
 void SYSMSG_logToFile(int iEnable);
 
+/*! Enable/disbale logging of system messages.
+ *  Messages are logged to sysmsg.log 
+ *  \param	iEnable 0(default) - don't log, any other value - perform log 
+ *  \param  strFile logfile name (default sysmsg.log)
+ */
+void SYSMSG_logToFile(int iEnable, STRING* strFile)
+
 /*! Set position of text window.
  *  \param	vX x Position on screen 
  *  \param	vY y Position on screen 
