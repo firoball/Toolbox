@@ -1,0 +1,41 @@
+Log of A7 Engine 7.07.2c run at Fri Nov 02 16:46:01 2007
+Firo on Windows NT/2000/XP version 5.1 Build 2600
+Options menu.c -eq -diag -nj -te -debug
+
+App d:\a7beta\SED.exe in E:\projects\Acknex\menu\
+MM mixer opened
+DSOUND device opened
+DI interface opened
+Start Window opened
+(c)Conitec . Dieburg . San Diego . www.3dgamestudio.com
+A7 Engine - Pro Edition V7.07.2c - Oct 31 2007
+Beta version
+Registered to: Robert Jäger
+
+Mouse found
+[Primary Sound Driver] opened
+NVIDIA GeForce 7900 GT pure T&L device 1ff9 detected
+D3D device NVIDIA GeForce 7900 GT 1ff9 selected.
+PATH d:\a7beta\code\
+Compiling MENU.C - [Esc] to abort...
+PATH ..\list\
+PATH ..\xmlreader\
+PATH ..\list\... ....  ..
+Running MENU.C.
+2 objects
+Main started in debug mode
+D3D_Init Window: 640x480x-9
+Backbuffer: 640x480 -> Window: 1x640x480x32
+Video memory found: 483 MB
+Main loop....ok.......ok
+1st frame - 494592K.. ok
+Normal exit
+
+Close level,DLL,objects
+Free input,funcs,panels,defs,syns,views,strings,vars..ok
+Free sounds,bmaps,fonts,hash,defs1,script..ok
+Close dx,multimedia,D3D,engine,physics,nexus..ok
+A7 Engine - Pro Edition V7.07.2c - Oct 31 2007
+(c)Conitec . Dieburg . San Diego . www.3dgamestudio.com
+Registered to: Robert Jäger
+Close window
