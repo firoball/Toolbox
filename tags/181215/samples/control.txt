@@ -1,0 +1,2 @@
+//Key Config: Great Shooter
+5 17 31 30 32 57 
