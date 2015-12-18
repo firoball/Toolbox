@@ -68,6 +68,7 @@
 #define SYSMSG_SHOW_DEFAULT	4
 #define SYSMSG_SHOW_SYSTEM		8
 #define SYSMSG_SHOW_PLUGIN		16
+#define SYSMSG_SHOW_WARNING	32
 /* \} */
 
 /*! \name Constant Data - Message Types
@@ -81,6 +82,7 @@
 #define SYSMSG_DEFAULT	4
 #define SYSMSG_SYSTEM	8
 #define SYSMSG_PLUGIN	16
+#define SYSMSG_WARNING	32
 /* \} */
 
 
